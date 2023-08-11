@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/prisma';
-import { Post } from '@/types/post.type';
+import { Blog } from '@/types/blog.type';
 
 export async function main() {
   try {
@@ -13,7 +13,7 @@ export async function main() {
 export const GET = async (request: Request, response: NextResponse) => {
   try {
     await main();
-    const posts: Post[] = await prisma.post.findMany();
+    const posts: Blog[] = await prisma.post.findMany();
     return NextResponse.json({ message: 'Success', posts }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ message: 'Error', error }, { status: 500 });
@@ -26,7 +26,7 @@ export const POST = async (request: Request, response: NextResponse) => {
   try {
     const { title, description } = await request.json();
     await main();
-    const post: Post = await prisma.post.create({
+    const post: Blog = await prisma.post.create({
       data: {
         title,
         description,
