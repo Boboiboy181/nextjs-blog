@@ -1,18 +1,27 @@
+'use client';
+
 import { Blog } from '@/types/blog.type';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 async function fetchBlogs() {
   const res = await fetch('http://localhost:3000/api/blogs', {
     next: {
-      revalidate: 10,
+      revalidate: 5,
     },
   });
   const data = await res.json();
   return data.posts;
 }
 
-const Home = async () => {
-  const blogs = await fetchBlogs();
+const Home = () => {
+  const [blogs, setBlogs] = useState<Blog[]>([] as Blog[]);
+
+  useEffect(() => {
+    fetchBlogs().then((data) => {
+      setBlogs(data);
+    });
+  }, []);
 
   return (
     <main className={'w-full h-full'}>
