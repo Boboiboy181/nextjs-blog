@@ -17,8 +17,13 @@ type EditBlogParams = {
   };
 };
 
+const url =
+  process.env.NODE_ENV === 'production'
+    ? 'https://nextjs-blog-omega-ten-66.vercel.app'
+    : 'http://localhost:3000';
+
 const updateBlog = async (data: UpdateBlogParams): Promise<Blog> => {
-  const res = fetch(`http://localhost:3000/api/blogs/${data.id}`, {
+  const res = fetch(`${url}/api/blogs/${data.id}`, {
     headers: {
       'Content-Type': 'application/json',
     },
@@ -29,7 +34,7 @@ const updateBlog = async (data: UpdateBlogParams): Promise<Blog> => {
 };
 
 const getBlogById = async (id: string): Promise<Blog> => {
-  const res = await fetch(`http://localhost:3000/api/blogs/${id}`);
+  const res = await fetch(`${url}/api/blogs/${id}`);
   const data = await res.json();
   return data.post;
 };

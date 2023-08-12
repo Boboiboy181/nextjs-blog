@@ -5,8 +5,13 @@ import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 
+const url =
+  process.env.NODE_ENV === 'production'
+    ? 'https://nextjs-blog-omega-ten-66.vercel.app'
+    : 'http://localhost:3000';
+
 async function fetchBlogs() {
-  const res = await fetch('http://localhost:3000/api/blogs', {
+  const res = await fetch(`${url}/api/blogs`, {
     next: {
       revalidate: 5,
     },
@@ -16,7 +21,7 @@ async function fetchBlogs() {
 }
 
 const deleteBlog = async (id: string) => {
-  const res = fetch(`http://localhost:3000/api/blogs/${id}`, {
+  const res = fetch(`${url}/api/blogs/${id}`, {
     headers: {
       'Content-Type': 'application/json',
     },

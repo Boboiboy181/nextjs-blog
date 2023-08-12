@@ -5,6 +5,11 @@ import { toast, Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { Blog } from '@/types/blog.type';
 
+const url =
+  process.env.NODE_ENV === 'production'
+    ? 'https://nextjs-blog-omega-ten-66.vercel.app'
+    : 'http://localhost:3000';
+
 const postBlog = async ({
   title,
   description,
@@ -12,7 +17,7 @@ const postBlog = async ({
   title: string;
   description: string;
 }): Promise<Blog> => {
-  const res = fetch('http://localhost:3000/api/blogs', {
+  const res = fetch(`${url}/api/blogs`, {
     headers: {
       'Content-Type': 'application/json',
     },
