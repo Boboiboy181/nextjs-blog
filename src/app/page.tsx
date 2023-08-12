@@ -53,7 +53,11 @@ const Home = () => {
       <Toaster />
       <main className={'w-full h-full'}>
         <div className={'md:w-2/4 sm:w-3/4 m-auto p-4 my-4'}>
-          <h1 className={'text-slate-200 text-center text-5xl font-bold'}>
+          <h1
+            className={
+              'text-slate-200 text-center xs:text-3xl md:text-5xl font-bold'
+            }
+          >
             Next.Js Blog App 🚀🎯
           </h1>
         </div>
@@ -73,7 +77,7 @@ const Home = () => {
               <div
                 key={blog.id}
                 className={
-                  'w-1/2 p-4 rounded-md mx-3 my-2 bg-slate-200 flex flex-col justify-center'
+                  'xs:w-4/5 md:w-1/2 p-4 rounded-md mx-3 my-2 bg-slate-200 flex flex-col justify-center'
                 }
               >
                 <div className={'flex items-center my-3'}>
@@ -85,7 +89,7 @@ const Home = () => {
                   <Link
                     href={`/blog/edit/${blog.id}`}
                     className={
-                      'px-4 py-1  text-center text-xl bg-slate-900 rounded-md font-semibold text-slate-200'
+                      'px-4 py-1 text-center text-xl bg-slate-900 rounded-md font-semibold text-slate-200'
                     }
                   >
                     Edit
