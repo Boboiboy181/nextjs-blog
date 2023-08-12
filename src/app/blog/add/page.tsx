@@ -13,8 +13,9 @@ const postBlog = async ({
   description: string;
 }): Promise<Blog> => {
   const res = fetch('http://localhost:3000/api/blogs', {
-    // @ts-ignore
-    'Content-Type': 'application/json',
+    headers: {
+      'Content-Type': 'application/json',
+    },
     method: 'POST',
     body: JSON.stringify({ title, description }),
   });

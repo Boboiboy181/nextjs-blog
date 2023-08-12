@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import { Blog } from '@/types/blog.type';
 
@@ -19,19 +19,11 @@ type EditBlogParams = {
 
 const updateBlog = async (data: UpdateBlogParams): Promise<Blog> => {
   const res = fetch(`http://localhost:3000/api/blogs/${data.id}`, {
-    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'PATCH',
     body: JSON.stringify({ title: data.title, description: data.description }),
-    //@ts-ignore
-    'Content-Type': 'application/json',
-  });
-  return (await res).json();
-};
-
-const deleteBlog = async (id: string) => {
-  const res = fetch(`http://localhost:3000/api/blogs/${id}`, {
-    method: 'DELETE',
-    //@ts-ignore
-    'Content-Type': 'application/json',
   });
   return (await res).json();
 };
@@ -77,10 +69,7 @@ const EditBlog = ({ params }: EditBlogParams) => {
     }
   };
 
-  const handleDelete = async () => {
-    toast.loading('Deleting Blog', { id: '2' });
-    await deleteBlog(params.id);
-    toast.success('Blog Deleted', { id: '2' });
+  const handleBackBtn = () => {
     router.push('/');
   };
 
@@ -105,16 +94,16 @@ const EditBlog = ({ params }: EditBlogParams) => {
               className="rounded-md px-4 py-2 w-full my-2"
             ></textarea>
             <div className="flex justify-between">
-              <button className="font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg m-auto hover:bg-slate-100">
+              <button className="font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg m-auto hover:bg-slate-100 w-full">
                 Update
               </button>
             </div>
           </form>
           <button
-            onClick={handleDelete}
-            className="font-semibold px-4 py-2 shadow-xl bg-red-400 rounded-lg  m-auto mt-2 hover:bg-red-500"
+            onClick={handleBackBtn}
+            className="font-semibold text-slate-200 mt-3 px-4 py-2 shadow-xl bg-red-500 rounded-lg m-auto hover:bg-red-400 w-full"
           >
-            Delete
+            Back
           </button>
         </div>
       </div>
