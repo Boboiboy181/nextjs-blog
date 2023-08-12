@@ -98,18 +98,29 @@ const EditBlog = ({ params }: EditBlogParams) => {
               placeholder="Enter Description"
               className="rounded-md px-4 py-2 xs:w-4/5 md:w-full my-2"
             ></textarea>
-            <div className="flex justify-between">
-              <button className="font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg m-auto hover:bg-slate-100 xs:w-4/5 md:w-full">
-                Update
+            <div
+              className={
+                'flex xs:flex-col sm:flex-row justify-between items-center'
+              }
+            >
+              <button
+                className={
+                  'font-semibold px-4 py-2 shadow-xl bg-slate-200 rounded-lg m-auto hover:bg-slate-100 xs:w-4/5 md:w-full lg:w-fit lg:m-0'
+                }
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                onClick={handleBackBtn}
+                className={
+                  'font-semibold text-slate-200 mt-3 px-4 py-2 shadow-xl bg-red-500 rounded-lg m-auto hover:bg-red-400 xs:w-4/5 md:w-full lg:w-fit lg:m-0'
+                }
+              >
+                Back
               </button>
             </div>
           </form>
-          <button
-            onClick={handleBackBtn}
-            className="font-semibold text-slate-200 mt-3 px-4 py-2 shadow-xl bg-red-500 rounded-lg m-auto hover:bg-red-400 xs:w-4/5 md:w-full"
-          >
-            Back
-          </button>
         </div>
       </div>
     </Fragment>
