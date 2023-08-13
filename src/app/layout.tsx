@@ -7,6 +7,7 @@ const nunito = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Next.js Blog',
+  description: 'Next.js Blog',
 };
 
 export default function RootLayout({

@@ -6,4 +6,14 @@
   body {
     @apply bg-slate-900;
   }
+
+  .active {
+    bottom: 20px !important;
+    opacity: 1 !important;
+  }
+
+  .no-active {
+    bottom: -100px !important;
+    opacity: 0;
+  }
 }

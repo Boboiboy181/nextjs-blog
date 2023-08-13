@@ -4,6 +4,8 @@ import { Blog } from '@/types/blog.type';
 import Link from 'next/link';
 import { Fragment, useEffect, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
+import BackToTop from './component/back-to-top.component';
+import useSWR from 'swr';
 
 const url =
   process.env.NODE_ENV === 'production'
@@ -31,21 +33,46 @@ const deleteBlog = async (id: string) => {
 };
 
 const Home = () => {
-  const [blogs, setBlogs] = useState<Blog[]>([] as Blog[]);
+  const [showBtn, setShowBtn] = useState(false);
+  const [blogs, setBlogs] = useState<Blog[]>([]);
+
+  const { data } = useSWR('/api/blogs', fetchBlogs, {
+    refreshInterval(latestData) {
+      if (latestData?.length !== blogs?.length) {
+        return 2000;
+      } else {
+        return 0;
+      }
+    },
+  });
+
+  const handleScroll = () => {
+    if (window.scrollY > 100) {
+      setShowBtn(true);
+    } else {
+      setShowBtn(false);
+    }
+  };
 
   useEffect(() => {
-    fetchBlogs().then((data) => {
+    if (data) {
       setBlogs(data);
-    });
-  }, []);
+    }
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [data]);
 
   const handleDelete = async (id: string) => {
     toast.loading('Deleting Blog', { id: '2' });
     await deleteBlog(id);
-    fetchBlogs().then((data) => {
-      setBlogs(data);
-    });
+    setBlogs(blogs.filter((blog) => blog.id !== id));
     toast.success('Blog Deleted', { id: '2' });
+  };
+
+  const backToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
@@ -72,7 +99,7 @@ const Home = () => {
           </Link>
         </div>
         <div className={'w-full flex flex-col justify-center items-center'}>
-          {blogs.map((blog: Blog) => {
+          {blogs?.map((blog: Blog) => {
             return (
               <div
                 key={blog.id}
@@ -120,6 +147,7 @@ const Home = () => {
           })}
         </div>
       </main>
+      <BackToTop showBtn={showBtn} backToTop={backToTop} />
     </Fragment>
   );
 };
