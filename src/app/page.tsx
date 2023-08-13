@@ -6,31 +6,12 @@ import { Fragment, useEffect, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import BackToTop from './component/back-to-top.component';
 import useSWR from 'swr';
-
-const url =
-  process.env.NODE_ENV === 'production'
-    ? 'https://nextjs-blog-omega-ten-66.vercel.app'
-    : 'http://localhost:3000';
+import { deleteBlog, getBlogs } from './api-service/blog.service';
 
 async function fetchBlogs() {
-  const res = await fetch(`${url}/api/blogs`, {
-    next: {
-      revalidate: 5,
-    },
-  });
-  const data = await res.json();
+  const { data } = await getBlogs();
   return data.posts;
 }
-
-const deleteBlog = async (id: string) => {
-  const res = fetch(`${url}/api/blogs/${id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'DELETE',
-  });
-  return (await res).json();
-};
 
 const Home = () => {
   const [showBtn, setShowBtn] = useState(false);
@@ -38,8 +19,8 @@ const Home = () => {
 
   const { data } = useSWR('/api/blogs', fetchBlogs, {
     refreshInterval(latestData) {
-      if (latestData?.length !== blogs?.length) {
-        return 2000;
+      if (latestData?.length !== blogs.length) {
+        return 500;
       } else {
         return 0;
       }

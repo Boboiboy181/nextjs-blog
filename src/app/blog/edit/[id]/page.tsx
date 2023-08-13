@@ -1,15 +1,14 @@
 'use client';
 
+import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useRef } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
-import { Blog } from '@/types/blog.type';
-
-type UpdateBlogParams = {
-  title: string;
-  description: string;
-  id: string;
-};
+import {
+  BlogDto,
+  getBlogByID,
+  updateBlog,
+} from '@/app/api-service/blog.service';
 
 type EditBlogParams = {
   params: {
@@ -17,58 +16,39 @@ type EditBlogParams = {
   };
 };
 
-const url =
-  process.env.NODE_ENV === 'production'
-    ? 'https://nextjs-blog-omega-ten-66.vercel.app'
-    : 'http://localhost:3000';
-
-const updateBlog = async (data: UpdateBlogParams): Promise<Blog> => {
-  const res = fetch(`${url}/api/blogs/${data.id}`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'PATCH',
-    body: JSON.stringify({ title: data.title, description: data.description }),
-  });
-  return (await res).json();
-};
-
-const getBlogById = async (id: string): Promise<Blog> => {
-  const res = await fetch(`${url}/api/blogs/${id}`);
-  const data = await res.json();
-  return data.post;
-};
-
 const EditBlog = ({ params }: EditBlogParams) => {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
+  const { data } = useSWR(params.id ? `${params.id}` : null, getBlogByID, {
+    refreshInterval(latestData) {
+      if (latestData !== data) {
+        return 10;
+      } else {
+        return 0;
+      }
+    },
+  });
+
   useEffect(() => {
-    toast.loading('Fetching Blog Details 🚀', { id: '1' });
-    getBlogById(params.id)
-      .then((data) => {
-        if (titleRef.current && descriptionRef.current) {
-          titleRef.current.value = data.title;
-          descriptionRef.current.value = data.description;
-          toast.success('Fetching Complete', { id: '1' });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('Error fetching blog', { id: '1' });
-      });
-  }, [params.id]);
+    toast.loading('Loading Blog 🚀', { id: '1' });
+    if (data && titleRef.current && descriptionRef.current) {
+      titleRef.current.value = data.post.title;
+      descriptionRef.current.value = data.post.description;
+      toast.success('Blog Loaded Successfully', { id: '1' });
+    }
+  }, [data]);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (titleRef.current && descriptionRef.current) {
       toast.loading('Sending Request 🚀', { id: '1' });
-      await updateBlog({
-        title: titleRef.current?.value,
-        description: descriptionRef.current?.value,
-        id: params.id,
-      });
+      const updateBlogDto: BlogDto = {
+        title: titleRef.current.value,
+        description: descriptionRef.current.value,
+      };
+      await updateBlog(params.id, updateBlogDto);
       toast.success('Blog Posted Successfully', { id: '1' });
       router.push('/');
     }

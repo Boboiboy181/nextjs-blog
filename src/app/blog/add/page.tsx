@@ -3,29 +3,7 @@
 import { Fragment, useRef } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import { Blog } from '@/types/blog.type';
-
-const url =
-  process.env.NODE_ENV === 'production'
-    ? 'https://nextjs-blog-omega-ten-66.vercel.app'
-    : 'http://localhost:3000';
-
-const postBlog = async ({
-  title,
-  description,
-}: {
-  title: string;
-  description: string;
-}): Promise<Blog> => {
-  const res = fetch(`${url}/api/blogs`, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    method: 'POST',
-    body: JSON.stringify({ title, description }),
-  });
-  return (await res).json();
-};
+import { BlogDto, addBlog } from '@/app/api-service/blog.service';
 
 const AddBlog = () => {
   const router = useRouter();
@@ -36,10 +14,11 @@ const AddBlog = () => {
     e.preventDefault();
     if (titleRef.current && descriptionRef.current) {
       toast.loading('Sending Request 🚀', { id: '1' });
-      await postBlog({
-        title: titleRef.current?.value,
-        description: descriptionRef.current?.value,
-      });
+      const addBlogDto: BlogDto = {
+        title: titleRef.current.value,
+        description: descriptionRef.current.value,
+      };
+      await addBlog(addBlogDto);
       toast.success('Blog Posted Successfully', { id: '1' });
       router.push('/');
     }
