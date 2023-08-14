@@ -7,6 +7,7 @@ import { toast, Toaster } from 'react-hot-toast';
 import BackToTop from './component/back-to-top.component';
 import useSWR from 'swr';
 import { deleteBlog, getBlogs } from './api-service/blog.service';
+import BlogList from './component/blog-list.component';
 
 async function fetchBlogs() {
   const { data } = await getBlogs();
@@ -79,54 +80,7 @@ const Home = () => {
             Add new blog 👨‍💻
           </Link>
         </div>
-        <div className={'w-full flex flex-col justify-center items-center'}>
-          {blogs?.map((blog: Blog) => {
-            return (
-              <div
-                key={blog.id}
-                className={
-                  'xs:w-4/5 md:w-1/2 p-4 rounded-md mx-3 my-2 bg-slate-200 flex flex-col justify-center'
-                }
-              >
-                <div className={'flex items-center my-3'}>
-                  <div className={'mr-auto'}>
-                    <h2 className={'mr-auto text-2xl font-semibold'}>
-                      {blog.title}
-                    </h2>
-                  </div>
-                  <Link
-                    href={`/blog/edit/${blog.id}`}
-                    className={
-                      'px-4 py-1 text-center text-xl bg-slate-900 rounded-md font-semibold text-slate-200'
-                    }
-                  >
-                    Edit
-                  </Link>
-                </div>
-                <div className={'flex items-center justify-between'}>
-                  <div>
-                    <div className={'mr-auto my-1'}>
-                      <blockquote className={'font-bold text-slate-700'}>
-                        {new Date(blog.date).toDateString()}
-                      </blockquote>
-                    </div>
-                    <div className={'mr-auto my-1'}>
-                      <h2>{blog.description}</h2>
-                    </div>
-                  </div>
-                  <button
-                    className={
-                      'px-4 py-1 text-center text-xl bg-red-600 rounded-md font-semibold text-slate-200'
-                    }
-                    onClick={() => handleDelete(blog.id)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <BlogList blogs={blogs} handleDelete={handleDelete} />
       </main>
       <BackToTop showBtn={showBtn} backToTop={backToTop} />
     </Fragment>
