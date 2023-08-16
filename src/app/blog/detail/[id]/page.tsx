@@ -37,20 +37,27 @@ const BlogDetail = ({ params }: BlogDetailParams) => {
   return (
     <Fragment>
       <Toaster />
-      <div>
-        {/* <button>
-          <Link href={'/'}>Back</Link>
-        </button> */}
+      <div className={`h-screen relative`}>
+        <Link
+          href={'/'}
+          className={`px-4 py-1 text-center text-xl border-slate-200 border rounded-md font-semibold text-slate-200
+             hover:bg-slate-200 hover:text-slate-900 transition-all duration-300 ease-in-out absolute top-8 left-8`}
+        >
+          Back
+        </Link>
         <div
-          className={
-            'text-slate-200 flex items-center flex-col justify-center h-screen'
-          }
+          className={`text-slate-200 flex flex-col absolute top-[20%] left-[50%] 
+          translate-x-[-50%] space-y-10`}
         >
           {data && (
             <Fragment>
-              <h1 className={'text-5xl'}>{blog.title}</h1>
-              <p>{blog.description}</p>
-              <p>{new Date(blog.date).toDateString()}</p>
+              <div className={'text-left'}>
+                <h1 className={'text-5xl'}>{blog.title}</h1>
+                <p className={'text-slate-400'}>
+                  {new Date(blog.date).toDateString()}
+                </p>
+              </div>
+              <p className={'text-justify'}>{blog.description}</p>
             </Fragment>
           )}
         </div>

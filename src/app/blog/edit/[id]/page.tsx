@@ -55,10 +55,6 @@ const EditBlog = ({ params }: EditBlogParams) => {
     }
   };
 
-  const handleBackBtn = () => {
-    router.push('/');
-  };
-
   return (
     <Fragment>
       <Toaster />
@@ -67,7 +63,6 @@ const EditBlog = ({ params }: EditBlogParams) => {
         handleSubmit={handleSubmit}
         titleRef={titleRef}
         descriptionRef={descriptionRef}
-        handleBackBtn={handleBackBtn}
       />
     </Fragment>
   );

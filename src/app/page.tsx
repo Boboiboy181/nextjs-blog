@@ -8,6 +8,7 @@ import BackToTop from './component/back-to-top.component';
 import useSWR from 'swr';
 import { deleteBlog, getBlogs } from './api-service/blog.service';
 import BlogList from './component/blog-list.component';
+import Confirm from './component/confirm.component';
 
 async function fetchBlogs() {
   const { data } = await getBlogs();
@@ -15,8 +16,10 @@ async function fetchBlogs() {
 }
 
 const Home = () => {
-  const [showBtn, setShowBtn] = useState(false);
+  const [showBtn, setShowBtn] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<Blog[]>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [id, setId] = useState<string>('');
 
   const { data } = useSWR('/api/blogs', fetchBlogs, {
     refreshInterval(latestData) {
@@ -57,6 +60,11 @@ const Home = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenConfirm = (id: string) => {
+    setIsOpen(true);
+    setId(id);
+  };
+
   return (
     <Fragment>
       <Toaster />
@@ -80,8 +88,9 @@ const Home = () => {
             Add new blog 👨‍💻
           </Link>
         </div>
-        <BlogList blogs={blogs} handleDelete={handleDelete} />
+        <BlogList blogs={blogs} handleDelete={handleOpenConfirm} />
       </main>
+      {isOpen && <Confirm idToDelete={id} setIsOpen={setIsOpen} handleDelete={handleDelete} />}
       <BackToTop showBtn={showBtn} backToTop={backToTop} />
     </Fragment>
   );

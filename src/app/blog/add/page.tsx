@@ -25,10 +25,6 @@ const AddBlog = () => {
     }
   };
 
-  const handleBackBtn = () => {
-    router.push('/');
-  };
-
   return (
     <Fragment>
       <Toaster />
@@ -37,7 +33,6 @@ const AddBlog = () => {
         handleSubmit={handleSubmit}
         titleRef={titleRef}
         descriptionRef={descriptionRef}
-        handleBackBtn={handleBackBtn}
       />
     </Fragment>
   );
