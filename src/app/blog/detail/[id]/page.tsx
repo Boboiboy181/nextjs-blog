@@ -5,6 +5,7 @@ import { Blog } from '@/types/blog.type';
 import Link from 'next/link';
 import { Fragment, useEffect } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
+import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import useSWR from 'swr';
 
 type BlogDetailParams = {
@@ -47,7 +48,7 @@ const BlogDetail = ({ params }: BlogDetailParams) => {
         </Link>
         <div
           className={`text-slate-200 flex flex-col absolute top-[20%] left-[50%] 
-          translate-x-[-50%] space-y-10`}
+          translate-x-[-50%] space-y-10 w-[80%]`}
         >
           {data && (
             <Fragment>
@@ -57,7 +58,7 @@ const BlogDetail = ({ params }: BlogDetailParams) => {
                   {new Date(blog.date).toDateString()}
                 </p>
               </div>
-              <p className={'text-justify'}>{blog.description}</p>
+              <ReactMarkdown className={'text-justify'}>{blog.description}</ReactMarkdown>
             </Fragment>
           )}
         </div>

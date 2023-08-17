@@ -1,23 +1,35 @@
 'use client';
 
-import { Fragment, useRef } from 'react';
+import React, { Fragment, useState } from 'react';
 import { toast, Toaster } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { BlogDto, addBlog } from '@/app/api-service/blog.service';
 import Form from '@/app/component/form.component';
 
+const defaultFormValues = {
+  title: '',
+  description: '',
+};
+
 const AddBlog = () => {
   const router = useRouter();
-  const titleRef = useRef<HTMLInputElement | null>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+  const [formValues, setFormValues] = useState(defaultFormValues);
 
-  const handleSubmit = async (e: any): Promise<void> => {
-    e.preventDefault();
-    if (titleRef.current && descriptionRef.current) {
+  const handleChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const value = event.target.value;
+    setFormValues({ ...formValues, [event.target.name]: value });
+  };
+
+  const handleSubmit = async () => {
+    if (formValues.title && formValues.description) {
       toast.loading('Sending Request 🚀', { id: '1' });
       const addBlogDto: BlogDto = {
-        title: titleRef.current.value,
-        description: descriptionRef.current.value,
+        title: formValues.title,
+        description: formValues.description,
       };
       await addBlog(addBlogDto);
       toast.success('Blog Posted Successfully', { id: '1' });
@@ -31,8 +43,9 @@ const AddBlog = () => {
       <Form
         title="Add A Wonderful Blog 🚀"
         handleSubmit={handleSubmit}
-        titleRef={titleRef}
-        descriptionRef={descriptionRef}
+        handleChange={handleChange}
+        titleValue={formValues.title}
+        descriptionValue={formValues.description}
       />
     </Fragment>
   );

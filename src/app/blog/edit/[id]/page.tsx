@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Toaster, toast } from 'react-hot-toast';
 import {
   BlogDto,
@@ -17,10 +17,23 @@ type EditBlogParams = {
   };
 };
 
+const defaultFormValues = {
+  title: '',
+  description: '',
+};
+
 const EditBlog = ({ params }: EditBlogParams) => {
   const router = useRouter();
-  const titleRef = useRef<HTMLInputElement | null>(null);
-  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+  const [formValues, setFormValues] = useState(defaultFormValues);
+
+  const handleChange = (
+    event:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    const value = event.target.value;
+    setFormValues({ ...formValues, [event.target.name]: value });
+  };
 
   const { data } = useSWR(params.id ? `${params.id}` : null, getBlogByID, {
     refreshInterval(latestData) {
@@ -30,24 +43,26 @@ const EditBlog = ({ params }: EditBlogParams) => {
         return 0;
       }
     },
+    revalidateOnFocus: false,
   });
 
   useEffect(() => {
     toast.loading('Loading Blog 🚀', { id: '1' });
-    if (data && titleRef.current && descriptionRef.current) {
-      titleRef.current.value = data.post.title;
-      descriptionRef.current.value = data.post.description;
+    if (data) {
+      setFormValues({
+        title: data.post.title,
+        description: data.post.description,
+      });
       toast.success('Blog Loaded Successfully', { id: '1' });
     }
   }, [data]);
 
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    if (titleRef.current && descriptionRef.current) {
+  const handleSubmit = async () => {
+    if (formValues.title && formValues.description) {
       toast.loading('Sending Request 🚀', { id: '1' });
       const updateBlogDto: BlogDto = {
-        title: titleRef.current.value,
-        description: descriptionRef.current.value,
+        title: formValues.title,
+        description: formValues.description,
       };
       await updateBlog(params.id, updateBlogDto);
       toast.success('Blog Posted Successfully', { id: '1' });
@@ -60,9 +75,10 @@ const EditBlog = ({ params }: EditBlogParams) => {
       <Toaster />
       <Form
         title="Edit A Wonderful Blog 🚀"
+        titleValue={formValues.title}
+        descriptionValue={formValues.description}
         handleSubmit={handleSubmit}
-        titleRef={titleRef}
-        descriptionRef={descriptionRef}
+        handleChange={handleChange}
       />
     </Fragment>
   );

@@ -3,17 +3,53 @@
 @tailwind utilities;
 
 @layer base {
-  body {
-    @apply bg-slate-900;
+  h1 {
+    @apply text-4xl font-bold;
   }
 
-  .active {
-    bottom: 20px !important;
-    opacity: 1 !important;
+  h2 {
+    @apply text-3xl font-bold;
   }
 
-  .no-active {
-    bottom: -100px !important;
-    opacity: 0;
+  h3 {
+    @apply text-2xl font-bold;
   }
+
+  h4 {
+    @apply text-xl font-bold;
+  }
+
+  h5 {
+    @apply text-lg font-bold;
+  }
+
+  h6 {
+    @apply text-base font-bold;
+  }
+
+  code {
+    @apply bg-slate-200 text-blue-500 rounded px-2 py-1;
+  }
+
+  pre {
+    @apply bg-slate-200 text-red-500 rounded px-2 py-1;
+  }
+
+  ul {
+    @apply list-disc list-inside;
+  }
+}
+
+body {
+  @apply bg-slate-900;
+}
+
+.active {
+  bottom: 20px !important;
+  opacity: 1 !important;
+}
+
+.no-active {
+  bottom: -100px !important;
+  opacity: 0;
 }

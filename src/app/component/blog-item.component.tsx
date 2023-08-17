@@ -39,7 +39,7 @@ const BlogItem = ({ blog, handleDelete }: BlogItemProps) => {
             </blockquote>
           </div>
           <div className={'mr-auto my-1 line-clamp-1 w-full'}>
-            <h2 className="w-[90%]">{blog.description}</h2>
+            <p className="w-[90%]">{blog.description}</p>
           </div>
         </div>
         <button
