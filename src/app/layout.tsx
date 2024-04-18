@@ -1,7 +1,8 @@
-import './globals.scss';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import type { Metadata } from 'next';
 import { Nunito } from 'next/font/google';
 import React from 'react';
+import './globals.scss';
 
 const nunito = Nunito({ subsets: ['latin'] });
 
@@ -17,7 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={nunito.className}>{children}</body>
+      <body className={nunito.className}>
+        {children}
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
