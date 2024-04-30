@@ -41,7 +41,7 @@ const BlogDetail = ({ params }: BlogDetailParams) => {
       <div className={`h-screen relative`}>
         <Link
           href={'/'}
-          className={`px-4 py-1 text-center text-xl border-slate-200 border rounded-md font-semibold text-slate-200
+          className={`px-4 py-1 text-center text-xl border-slate-900 border rounded-md font-semibold text-slate-900
              hover:bg-slate-200 hover:text-slate-900 transition-all duration-300 ease-in-out absolute top-8 left-8`}
         >
           Back
@@ -53,12 +53,12 @@ const BlogDetail = ({ params }: BlogDetailParams) => {
           {data && (
             <Fragment>
               <div className={'text-left'}>
-                <h1 className={'text-5xl'}>{blog.title}</h1>
+                <h1 className={'text-5xl text-slate-900'}>{blog.title}</h1>
                 <p className={'text-slate-400'}>
                   {new Date(blog.date).toDateString()}
                 </p>
               </div>
-              <ReactMarkdown className={'text-justify'}>{blog.description}</ReactMarkdown>
+              <ReactMarkdown className={'text-justify text-slate-900'}>{blog.description}</ReactMarkdown>
             </Fragment>
           )}
         </div>

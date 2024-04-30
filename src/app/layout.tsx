@@ -7,8 +7,8 @@ import './globals.scss';
 const nunito = Nunito({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Next.js Blog',
-  description: 'Next.js Blog',
+  title: 'Blog',
+  description: 'Blog App',
 };
 
 export default function RootLayout({

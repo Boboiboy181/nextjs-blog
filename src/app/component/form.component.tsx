@@ -27,7 +27,7 @@ const Form = ({
       <div
         className={'flex flex-col justify-center items-center m-auto w-full'}
       >
-        <p className={'xs:text-3xl md:text-5xl text-slate-200 font-bold p-3'}>
+        <p className={'xs:text-3xl md:text-5xl text-slate-900 font-bold p-3'}>
           {title}
         </p>
         <div
@@ -45,7 +45,7 @@ const Form = ({
               type="text"
               name="title"
               placeholder="Enter Title"
-              className={'rounded-md px-4 w-full py-2 my-2 outline-none'}
+              className={'rounded-md px-4 w-full py-2 my-2 outline-none border'}
               required
               onChange={handleChange}
               autoFocus
@@ -56,24 +56,24 @@ const Form = ({
               name="description"
               placeholder="Enter Description"
               className={
-                'rounded-md px-4 py-2 w-full my-2 h-[30rem] resize-none outline-none'
+                'rounded-md px-4 py-2 w-full my-2 h-[30rem] resize-none outline-none border'
               }
               required
               onChange={handleChange}
             ></textarea>
-            <span className={'text-slate-200 sm:text-xs lg:text-base'}>
+            <span className={'text-slate-900 sm:text-xs lg:text-base'}>
               * Support MarkDown
             </span>
           </form>
           <div className={'flex flex-col lg:w-[50%] xs:w-[100%]'}>
-            <div className="text-slate-200 rounded-md lg:px-4 w-full py-2 my-2 h-10">
+            <div className="text-slate-900 rounded-md lg:px-4 w-full py-2 my-2 h-10">
               <p className={'font-semibold text-2xl'}>
                 {!titleValue ? 'Preview blog' : titleValue}
               </p>
             </div>
             <div
               className={
-                'bg-white rounded-md px-4 py-2 w-full my-2 h-[30rem] overflow-scroll break-words'
+                'bg-white rounded-md px-4 py-2 w-full my-2 h-[30rem] overflow-scroll break-words border'
               }
             >
               <ReactMarkdown rehypePlugins={[rehypeHighlight]}>

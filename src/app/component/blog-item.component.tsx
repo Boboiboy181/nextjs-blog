@@ -11,7 +11,7 @@ const BlogItem = ({ blog, handleDelete }: BlogItemProps) => {
     <div
       key={blog.id}
       className={
-        'xs:w-4/5 md:w-1/2 p-4 rounded-md mx-3 my-2 bg-slate-200 flex flex-col justify-center'
+        'xs:w-4/5 md:w-1/2 p-4 rounded-md mx-3 my-2 bg-slate-200 flex flex-col justify-center drop-shadow-lg'
       }
     >
       <div className={'flex items-center my-3'}>

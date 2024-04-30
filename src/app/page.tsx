@@ -72,10 +72,10 @@ const Home = () => {
         <div className={'md:w-2/4 sm:w-3/4 m-auto p-4 my-4'}>
           <h1
             className={
-              'text-slate-200 text-center xs:text-3xl md:text-5xl font-bold'
+              'text-slate-900 text-center xs:text-3xl md:text-5xl font-bold'
             }
           >
-            Next.Js Blog App 🚀🎯
+            Blog App 🚀🎯
           </h1>
         </div>
         <div className={'flex mb-2'}>
