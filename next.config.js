@@ -8,7 +8,7 @@ module.exports = {
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           {
             key: 'Access-Control-Allow-Origin',
-            value: 'daogiahai.id.vn',
+            value: 'https://daogiahai.id.vn',
           },
           {
             key: 'Access-Control-Allow-Methods',
